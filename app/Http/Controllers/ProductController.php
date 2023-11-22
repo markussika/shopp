@@ -44,4 +44,14 @@ class ProductController extends Controller
         return redirect("/products");
 
     }
+    public function show(Request $request , $id) {
+        $product = Product::find($id);
+        if ($product){
+            return view("products.show", ["product" => $product]);
+        }else{
+            return redirect ("/products");
+        }
+
+        
+    }
 }

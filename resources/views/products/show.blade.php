@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{$product->name}}</title>
+  <title>{{$products->name}}</title>
 </head>
 <body>
   
   <main>
     
     <article>
-      <h1>{{$product->name}}</h1>
-      <img src={{$product->imageURL}} alt="{{$product->name}}" width="200px"/>
-      <p>{{$product->description}}
+      <h1>{{$products->name}}</h1>
+      <img src={{$products->imageURL}} alt="{{$products->name}}" width="200px"/>
+      <p>{{$products->description}}
       </p>
-      <p>{{$product->price}} EUR</p>
+      <p>{{$products->price}} EUR</p>
     </article>
     
   </main>

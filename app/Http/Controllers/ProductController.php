@@ -2,56 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $products = Product::all();
-        //\Log::info("acdss");
+        // dd($products);
         return view("products.index", ["products" => $products]);
     }
 
-    public function create() {
+    public function create()
+    {
         return view("products.create");
     }
+    public function store(Request $request, Product $product)
+    {
+        // dd($request);
 
-    public function store(Request $request, Product $product) {
-        $request->validate(
-            [
-                "name" => ["required", "min:5", "max:50"],
-                "description" => ["required", "min:5", "max:255"],
-                "price" => ["required", "numeric"],
-                "image" => ["required", "image", "max:10240"]
-            ]
-            );
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-
-        $image = $request->file('image'); // storing img to variable
-        
-        // creating filename and saving the image
+        $product->name = $request->ProductName;
+        $product->imageURL = $request->imageURL;
+        $product->description = $request->Deskription;
+        $product->price = $request->Price;
+        $image = $request->file('Imgurl');
         $fileName = time() . '_' . $image->getClientOriginalName();
         $image->move(public_path('images'), $fileName);
-
-        // storing filename to the database
         $product->imageURL = '/images/' . $fileName;
-
+        $request->validate(
+            [
+                "ProductName" => ["required", "min:3", "max:30"],
+                // "imageURL" => ["required", "image", "max:10240"],
+                "Deskription" => ["required", "min:3", "max:30"],
+                "Price" => ["required", "numeric"]
+            ]
+            );
         $product->save();
-        
+
+        return redirect("/products");
+        // dd($request->ProductTitle);
+        // dd($request->Imgurl);
+        // dd($request->Deskription);
+        // dd($request->Price);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $products = Product::find($id);
+        if($products)
+        {
+            return view("products.show", ["products" => $products]);
+        }
         return redirect("/products");
 
-    }
-    public function show(Request $request , $id) {
-        $product = Product::find($id);
-        if ($product){
-            return view("products.show", ["product" => $product]);
-        }else{
-            return redirect ("/products");
-        }
 
+    }
+    public function edit(Request $request, $id){
+        $product = Product::find($id);
         
+        if($product)
+        {
+            return view("products.edit", ["products"=>$product]);
+        }
+        return redirect("/products");
     }
 }

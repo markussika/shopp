@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +27,6 @@ Route::get("/products/create", [ProductController::class, "create"]);
 Route::post("/products", [ProductController::class, "store"]);
 Route::get("/products/{id}" , [ProductController::class, "show"]);
 Route::get("/products/{id}/edit" , [ProductController::class, "edit" ]);
+
+Route::get("/register", [UserController::class, "create"]);
+Route::post("/register", [UserController::class, "store"]);
